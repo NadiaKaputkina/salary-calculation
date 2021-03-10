@@ -11,11 +11,8 @@ const initialState = {
 };
 
 export default buildReducer(initialState, {
-    [profileTypes.USER_LOGIN]: (state: iInitialState = initialState, payload: any) => {
+    [profileTypes.USER_LOGIN_LOGOUT]: (state: iInitialState = initialState, payload: any) => {
         return {...state, authenticate: payload.authenticated}
     },
-    [profileTypes.USER_LOGOUT]: (state: iInitialState = initialState, payload: any) => {
-        return {...state, authenticate: payload.authenticated}
-    }
 })
 

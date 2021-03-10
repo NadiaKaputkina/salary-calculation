@@ -1,23 +1,29 @@
+import userLoginRequest from '../../fetch/requests/login'
+
 const PREFIX = 'USER'
 
 export const types = {
-    USER_LOGIN: `${PREFIX}_LOGIN`,
-    USER_LOGOUT: `${PREFIX}_LOGOUT`,
+    USER_LOGIN_LOGOUT: `${PREFIX}_LOGIN_LOGOUT`,
 }
 
-export const login = (payload: any) => {
-    return (dispatch: any) => {
-        dispatch({
-            type: types.USER_LOGIN,
-            payload
-        })
+export const loginLogoutService = (payload: any) => {
+
+    return (dispatch: any, getState: any) => {
+
+        return userLoginRequest(dispatch, getState)
+            .then(response => {
+
+                dispatch(userLoginLogout(payload))
+                return Promise.resolve(response)
+            })
+            .catch(error => {
+
+                return Promise.reject(error)
+            })
     }
 }
 
-export const logout = (payload: any) => {
-    return (dispatch: any) => {
-        dispatch(userLogout(payload))
-    }
-}
-
-export const userLogout = (payload: boolean) => ({type: types.USER_LOGOUT, payload})
+export const userLoginLogout = (payload: boolean) => ({
+    type: types.USER_LOGIN_LOGOUT,
+    payload
+})

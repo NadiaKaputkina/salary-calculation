@@ -10,8 +10,28 @@ import clsx from "clsx";
 import MenuIcon from "@material-ui/icons/Menu";
 import { NavLink } from "react-router-dom";
 import { useAppBarStyles } from "../../styles/rootStyles";
+import { withRouter } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { selectProfileAuth } from "../../../../flux/selector/profile";
+import { loginLogoutService } from "../../../../flux/actions/profile";
 
-export default function ApplicationBar(props: any) {
+function ApplicationBar(props: any) {
+
+    const {
+        history
+    } = props
+
+    const auth = useSelector(selectProfileAuth)
+    const dispatch = useDispatch();
+
+    const handleLoginButton = () => {
+        history.push('/login')
+    };
+    const handleLogoutButton = () => {
+        dispatch(loginLogoutService({authenticated: false}))
+        history.push('login')
+    }
+
     const classes = useAppBarStyles();
     return (
         <AppBar className={clsx(classes.appBar, props.open && classes.appBarShift)}>
@@ -32,12 +52,22 @@ export default function ApplicationBar(props: any) {
                         </Typography>
                     </NavLink>
                 </div>
-                <NavLink to="/login" exact={true}>
-                    <Button>
-                        Login
-                    </Button>
-                </NavLink>
+                {
+                    auth ?
+                        <Button
+                            onClick={handleLogoutButton}
+                        >
+                            Logout
+                        </Button> :
+                        <Button
+                            onClick={handleLoginButton}
+                        >
+                            Login
+                        </Button>
+                }
             </Toolbar>
         </AppBar>
     )
 }
+
+export default withRouter(ApplicationBar)

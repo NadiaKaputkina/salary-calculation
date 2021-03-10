@@ -47,7 +47,7 @@ function Category(props: any) {
                 </ListItemIcon>
                 <ListItemText
                     style={{whiteSpace: 'normal'}}
-                    primary="Ведомости начисления заработной платы"
+                    primary="Ведомости"
                 />
             </ListItem>
             <ListItem
