@@ -1,85 +1,29 @@
-import React, { useState } from 'react';
-import { useDispatch } from "react-redux";
+import React from 'react';
 import {
-    makeStyles,
     ThemeProvider,
 } from "@material-ui/core";
-
-import { withRouter } from "react-router";
 import { theme } from "../../theme";
-import { loginAction } from "../../flux/actions/profile";
-import LoginForm from "../../shared/components/loginForm/loginForm";
-import RegistrationForm from "../../shared/components/logoutForm/logoutForm";
+import RegistrationForm from "../../shared/components/logoutForm/registrationForm";
+import { useHistory } from "react-router-dom";
 
-const useStyles = makeStyles(() => ({
-    loginForm: {
-        paddingLeft: '8px',
-        marginBottom: '8px',
-        height: '20%',
-        width: '100%',
-        textAlign: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        backgroundColor: 'floralwhite',
-        borderRadius: '8px',
-        border: '1px solid black',
-    },
-    loginLayout: {
-        padding: '16px',
-        height: '300px',
-        width: '300px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flexStart',
-        backgroundColor: 'cornflowerblue',
-        borderRadius: '16px',
-        border: '1px solid black',
-    },
-    label: {
-        paddingLeft: '8px',
-    },
-    loginButtonLayout: {
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-    },
-}))
+export default function RegistrationPage() {
 
-function RegistrationPage(props: any) {
-
-    const {
-        history
-    } = props
+    let history = useHistory()
 
     const [values, setValues] = React.useState({
+        username: '',
+        email: '',
         password: '',
         showPassword: false,
     });
-    const [regButtonClicked, setRegButtonClicked] = useState(false)
-    const dispatch = useDispatch();
 
     return (
         <ThemeProvider theme={theme}>
-            {
-                !regButtonClicked ?
-                    <LoginForm
-                        setRegButtonClicked={setRegButtonClicked}
-                        values={values}
-                        setValues={setValues}
-                        history={history}
-                    /> :
-                    <RegistrationForm
-                        setRegButtonClicked={setRegButtonClicked}
-                        values={values}
-                        setValues={setValues}
-                        history={history}
-                    />
-            }
+            <RegistrationForm
+                values={values}
+                setValues={setValues}
+                history={history}
+            />
         </ThemeProvider>
     )
 }
-
-export default withRouter(RegistrationPage)

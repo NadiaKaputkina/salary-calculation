@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Button,
     FormControl,
@@ -58,7 +58,7 @@ export default function LoginForm(props: any) {
     const {
         values,
         setValues,
-        setRegButtonClicked,
+        moveToRegistrationPage,
         history,
     } = props
 
@@ -80,9 +80,6 @@ export default function LoginForm(props: any) {
 
     const handleLoginButton = () => {
         dispatch(loginAction(history));
-    };
-    const handleRegButtonClicked = () => {
-        setRegButtonClicked(true)
     };
 
     return (
@@ -142,7 +139,7 @@ export default function LoginForm(props: any) {
                             variant='contained'
                             size="medium"
                             color="secondary"
-                            onClick={handleRegButtonClicked}
+                            onClick={moveToRegistrationPage}
                         >
                             Sign Up
                         </Button>

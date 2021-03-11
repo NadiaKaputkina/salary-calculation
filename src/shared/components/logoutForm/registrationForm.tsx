@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Button,
     FormControl,
     Grid,
     IconButton,
-    Input,
     InputAdornment,
+    Input,
     InputLabel,
     makeStyles
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { registrationActon } from "../../../flux/actions/registration";
 import { useDispatch } from "react-redux";
-import { loginAction } from "../../../flux/actions/profile";
 
 const useStyles = makeStyles(() => ({
     loginForm: {
@@ -55,12 +55,10 @@ export default function RegistrationForm(props: any) {
     const {
         values,
         setValues,
-        setRegButtonClicked,
         history,
     } = props
 
     const classes = useStyles();
-
     const dispatch = useDispatch();
 
     const handleChange = (prop: string) => (event: any) => {
@@ -76,11 +74,11 @@ export default function RegistrationForm(props: any) {
     };
 
     const handleBackButton = () => {
-        setRegButtonClicked(false)
+        history.push('/login')
     }
 
     const handleCreateAccountButtonClicked = () => {
-        setRegButtonClicked(false)
+        dispatch(registrationActon(history))
     }
 
     return (

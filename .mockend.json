@@ -1,8 +1,12 @@
 {
   "User": {
-    "login": "string",
-    "name": "string",
+    "userName": "string",
+    "email": "string",
     "password": "string"
   },
-  "token": "boolean"
+  "Token": "boolean",
+  "Employee": {
+    "name": "string",
+    "duty": "string"
+  }
 }
