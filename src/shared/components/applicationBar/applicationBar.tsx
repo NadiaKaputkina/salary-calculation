@@ -12,8 +12,8 @@ import { NavLink } from "react-router-dom";
 import { useAppBarStyles } from "../../styles/rootStyles";
 import { withRouter } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { selectProfileAuth } from "../../../../flux/selector/profile";
-import { logoutAction } from "../../../../flux/actions/profile";
+import { selectProfileAuth } from "../../../flux/selector/profile";
+import { logoutAction } from "../../../flux/actions/profile";
 
 function ApplicationBar(props: any) {
 

@@ -10,15 +10,15 @@ import {
     CssBaseline,
 } from '@material-ui/core';
 
-import Home from "./app/pages/home/home";
-import Employees from "./app/pages/employees/employees";
-import ReportCards from "./app/pages/reportCards/reportCards";
-import SalaryTables from "./app/pages/salaryTables/salaryTables";
-import Reports from "./app/pages/reports/reports";
-import NavigationDrawer from "./app/shared/components/navigationDrawer/navigationDrawer";
-import ApplicationBar from "./app/shared/components/applicationBar/applicationBar";
-import { useAppBarStyles } from "./app/shared/styles/rootStyles";
-import Login from "./app/pages/login/login";
+import Home from "./pages/home/home";
+import Employees from "./pages/employees/employees";
+import ReportCards from "./pages/reportCards/reportCards";
+import SalaryTables from "./pages/salaryTables/salaryTables";
+import Reports from "./pages/reports/reports";
+import NavigationDrawer from "./shared/components/navigationDrawer/navigationDrawer";
+import ApplicationBar from "./shared/components/applicationBar/applicationBar";
+import { useAppBarStyles } from "./shared/styles/rootStyles";
+import Login from "./Security/login/LoginPage";
 
 export default function App() {
     const [open, setOpen] = React.useState(false);

@@ -17,8 +17,6 @@ export const loginAction: ActionCreator<ThunkAction<Promise<Action>, any, void, 
                 const response = await api.userLogin()
                 const res = await response.json()
                 if (res) {
-                    console.log(res)
-                    console.log('I am here')
                     dispatch(userLoginAction(true))
                     return history.push('home')
                 }
