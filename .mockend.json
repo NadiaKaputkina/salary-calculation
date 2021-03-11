@@ -1,12 +1,13 @@
 {
-  "User": {
-    "userName": "string",
-    "email": "string",
-    "password": "string"
+  "Post": {
+    "title": "string",
+    "views": "int",
+    "published": "boolean",
+    "createdAt": "date",
+    "comments": "Comment[]"
   },
-  "Token": "boolean",
-  "Employee": {
-    "name": "string",
-    "duty": "string"
+  "Comment": {
+    "body": "string",
+    "post": "Post"
   }
 }
