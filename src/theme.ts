@@ -1,5 +1,5 @@
-import {createMuiTheme} from "@material-ui/core";
-import {deepPurple, amber} from "@material-ui/core/colors";
+import { createMuiTheme } from "@material-ui/core";
+import { deepPurple, amber } from "@material-ui/core/colors";
 
 export const theme = createMuiTheme({
     palette: {
@@ -13,8 +13,8 @@ export const theme = createMuiTheme({
     }
 })
 
-theme.props ={
-    MuiButton:{
+theme.props = {
+    MuiButton: {
         disableElevation: true
     }
 }

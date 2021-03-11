@@ -9,17 +9,17 @@ export const types = {
     USER_LOGOUT: `${PREFIX}_LOGOUT`,
 }
 
-export const loginAction: ActionCreator<ThunkAction<Promise<Action>, any, void, any>> = (history: any) => {
+export const loginAction: ActionCreator<ThunkAction<Promise<Action>, any, void, any>> = (history: any, values: any) => {
     {
         return async (dispatch: Dispatch<Action>): Promise<any> => {
             try {
-
-                const response = await api.userLogin()
+                console.log(values)
+                const response = await api.userLogin(values)
                 const res = await response.json()
-                if (res) {
+                if (res.length > 0) {
                     dispatch(userLoginAction(true))
                     return history.push('home')
-                }
+                } else throw "Такого пользователя не существует"
             } catch (e) {
                 console.log('e', e)
             }

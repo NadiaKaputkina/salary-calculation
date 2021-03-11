@@ -4,12 +4,17 @@ import {
 } from "@material-ui/core";
 
 import { theme } from "../theme";
+import { useAppBarStyles } from "../shared/styles/rootStyles";
+import clsx from "clsx";
 
 const BlankLayout = ({children}: any) => {
-
+    const classes = useAppBarStyles();
     return (
         <ThemeProvider theme={theme}>
-            {children}
+            <div
+                className={clsx(classes.layout, classes.height)}>
+                {children}
+            </div>
         </ThemeProvider>
     )
 }

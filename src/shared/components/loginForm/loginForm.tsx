@@ -79,7 +79,7 @@ export default function LoginForm(props: any) {
     };
 
     const handleLoginButton = () => {
-        dispatch(loginAction(history));
+        dispatch(loginAction(history, values))
     };
 
     return (
@@ -93,6 +93,7 @@ export default function LoginForm(props: any) {
                 <Input
                     id="login"
                     aria-describedby="my-helper-text"
+                    onChange={handleChange('username')}
                 />
             </FormControl>
             <FormControl className={classes.loginForm}>

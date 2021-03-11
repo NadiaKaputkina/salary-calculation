@@ -78,7 +78,7 @@ export default function RegistrationForm(props: any) {
     }
 
     const handleCreateAccountButtonClicked = () => {
-        dispatch(registrationActon(history))
+        dispatch(registrationActon(history, values))
     }
 
     return (
@@ -92,6 +92,7 @@ export default function RegistrationForm(props: any) {
                 <Input
                     id="login"
                     aria-describedby="my-helper-text"
+                    onChange={handleChange('email')}
                 />
             </FormControl>
             <FormControl className={classes.loginForm}>
@@ -103,6 +104,7 @@ export default function RegistrationForm(props: any) {
                 <Input
                     id="username"
                     aria-describedby="my-helper-text"
+                    onChange={handleChange('username')}
                 />
             </FormControl>
             <FormControl className={classes.loginForm}>

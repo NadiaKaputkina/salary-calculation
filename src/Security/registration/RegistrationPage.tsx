@@ -1,10 +1,7 @@
 import React from 'react';
-import {
-    ThemeProvider,
-} from "@material-ui/core";
-import { theme } from "../../theme";
 import RegistrationForm from "../../shared/components/logoutForm/registrationForm";
 import { useHistory } from "react-router-dom";
+import BlankLayout from "../../layouts/BlankLayout";
 
 export default function RegistrationPage() {
 
@@ -18,12 +15,12 @@ export default function RegistrationPage() {
     });
 
     return (
-        <ThemeProvider theme={theme}>
+        <BlankLayout>
             <RegistrationForm
                 values={values}
                 setValues={setValues}
                 history={history}
             />
-        </ThemeProvider>
+        </BlankLayout>
     )
 }

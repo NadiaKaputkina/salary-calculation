@@ -7,7 +7,7 @@ function LoginPage() {
 
     let history = useHistory()
     const [values, setValues] = React.useState({
-        userName: '',
+        username: '',
         password: '',
         showPassword: false,
     });

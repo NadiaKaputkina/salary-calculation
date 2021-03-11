@@ -15,7 +15,7 @@ export const DEFAULT_STYLES = {
     }
 }
 
-export const useDefaultStyles = makeStyles<Theme, any>(theme => ({
+export const useDefaultStyles = makeStyles<Theme, any>(() => ({
     defaultPage: ({defaultPage}) => defaultPage
 }))
 
@@ -86,5 +86,8 @@ export const useAppBarStyles = makeStyles(theme => ({
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-    }
+    },
+    height: {
+        height: '900px'
+    },
 }))

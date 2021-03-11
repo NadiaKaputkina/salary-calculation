@@ -3,14 +3,18 @@ import { ThunkAction } from 'redux-thunk';
 import * as api from '../../api/registerUser';
 import { userLoginAction } from "./profile";
 
-export const registrationActon: ActionCreator<ThunkAction<Promise<Action>, any, void, any>> = (history: any) => {
+export const registrationActon: ActionCreator<ThunkAction<Promise<Action>, any, void, any>> = (history: any, values: any) => {
     {
         return async (dispatch: Dispatch<Action>): Promise<any> => {
             try {
+                const data = {
+                    userName: values.username,
+                    email: values.email,
+                    password: values.password
+                }
 
-                const response = await api.registerUser()
+                const response = await api.registerUser(data)
                 const res = await response.json()
-                console.log('res', res)
                 if (res) {
                     dispatch(userLoginAction(true))
                     return history.push('/login')
