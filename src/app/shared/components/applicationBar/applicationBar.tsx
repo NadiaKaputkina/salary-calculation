@@ -13,7 +13,7 @@ import { useAppBarStyles } from "../../styles/rootStyles";
 import { withRouter } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProfileAuth } from "../../../../flux/selector/profile";
-import { loginLogoutService } from "../../../../flux/actions/profile";
+import { logoutAction } from "../../../../flux/actions/profile";
 
 function ApplicationBar(props: any) {
 
@@ -28,8 +28,7 @@ function ApplicationBar(props: any) {
         history.push('/login')
     };
     const handleLogoutButton = () => {
-        dispatch(loginLogoutService({authenticated: false}))
-        history.push('login')
+        dispatch(logoutAction(history))
     }
 
     const classes = useAppBarStyles();

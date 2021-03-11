@@ -1,6 +1,8 @@
 {
   "User": {
+    "login": "string",
     "name": "string",
-    "password": "boolean"
-  }
+    "password": "string"
+  },
+  "token": "boolean"
 }
