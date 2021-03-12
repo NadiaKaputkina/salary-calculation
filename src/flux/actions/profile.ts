@@ -13,16 +13,15 @@ export const types = {
 export const loginAction: ActionCreator<ThunkAction<Promise<Action>, any, void, any>> = (history: any, values: any) => {
         return async (dispatch: any): Promise<any> => {
             try {
-                console.log(values)
                 const response = await api.userLogin(values)
                 const res = await response.json()
                 if (res.length > 0) {
-                    dispatch(snackShowAction('Успешно'))
+                    dispatch(snackShowAction('Успешно', 'success', true))
                     dispatch(userLoginAction(true))
                     return history.push('home')
                 } else throw "Такого пользователя не существует"
             } catch (e) {
-                dispatch(snackShowAction(e))
+                dispatch(snackShowAction(e, 'error', true))
             }
         }
 }

@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import MainSnackbar from "../ui/MainSnackbar";
-import { useSelector } from "react-redux";
-import { selectSnackMessage } from "../snackSelector";
+import { useDispatch, useSelector } from "react-redux";
+import { selectSnack } from "../snackSelector";
+import { snackCloseAction } from "../snackAction";
+import { SnackInterface } from "../snackReducer";
 
-const SnackbarContainer = (props: any) => {
+const SnackbarContainer = () => {
 
-    const snackMessage = useSelector(selectSnackMessage)
-    const [open, setOpen] = useState(false)
+    let snack: SnackInterface = useSelector(selectSnack)
+    const dispatch = useDispatch();
 
     const handleClose = () => {
-        setOpen(false)
+        dispatch(snackCloseAction())
     }
-
-    useEffect(() => {
-        setOpen(true)
-    },[snackMessage])
-
     return (
         <MainSnackbar
-            snackMessage={snackMessage}
-            open={open}
+            snack={snack}
             handleClose={handleClose}
         />
     )

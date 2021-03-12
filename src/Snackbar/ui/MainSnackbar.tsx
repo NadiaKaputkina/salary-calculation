@@ -1,24 +1,29 @@
 import React  from 'react'
 import { Snackbar } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
+import { SnackInterface } from "../snackReducer";
 
-const MainSnackbar = (props: any) => {
+export type MainSnackbarProps = {
+    snack: SnackInterface
+    handleClose: () => void
+}
+
+const MainSnackbar = (props: MainSnackbarProps) => {
 
     const {
-        snackMessage,
-        open,
+        snack,
         handleClose
     } = props
 
     return (
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Snackbar open={snack.open} autoHideDuration={6000} onClose={handleClose}>
             <Alert
                 elevation={6}
                 variant="filled"
                 onClose={handleClose}
-                severity="success"
+                severity={snack.severity}
             >
-                {snackMessage}
+                {snack.message}
             </Alert>
         </Snackbar>
     )

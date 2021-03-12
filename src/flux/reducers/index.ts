@@ -5,5 +5,5 @@ import { snackReducer } from "../../Snackbar/snackReducer";
 
 export default combineReducers({
     profile,
-    error: snackReducer,
+    snack: snackReducer,
 });

@@ -1,8 +1,9 @@
-import { createSelector } from 'reselect'
+import { createSelector } from 'reselect';
+import { SnackInterface } from "./snackReducer";
 
-export const selectSnack = (state: any) => state.error;
+export const selectSnack = (state: any): SnackInterface => state.snack;
 
-export const selectSnackMessage = createSelector(
+export const selectOpen = createSelector(
     selectSnack,
-    (error: any) => error.message,
+    (snack: SnackInterface): boolean => snack.open,
 )
