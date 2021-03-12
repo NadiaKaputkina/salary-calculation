@@ -7,7 +7,7 @@ import {
     InputAdornment,
     Input,
     InputLabel,
-    makeStyles
+    makeStyles, Link
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { registrationActon } from "../../../flux/actions/registration";
@@ -136,26 +136,24 @@ export default function RegistrationForm(props: any) {
                 className={classes.loginButtonLayout}
             >
                 <Grid container spacing={2}>
-                    <Grid item>
+                    <Grid item xs={12}>
                         <Button
                             variant='contained'
-                            size="medium"
-                            color="primary"
-                            onClick={handleBackButton}
-                        >
-                            Back
-                        </Button>
-                    </Grid>
-                    <Grid item>
-                        <Button
-                            variant='contained'
-                            size="medium"
                             color="secondary"
                             onClick={handleCreateAccountButtonClicked}
                         >
                             Create account
                         </Button>
                     </Grid>
+                    <Grid item xs={12}>
+                        <Link
+                            component="button"
+                            variant="body2"
+                            onClick={handleBackButton}
+                        >
+                            Already have an Atlassian account? Log in
+                        </Link>
+                      </Grid>
                 </Grid>
             </div>
         </div>

@@ -8,6 +8,7 @@ import { theme } from "../theme";
 import ApplicationBar from "../shared/components/applicationBar/applicationBar";
 import NavigationDrawer from "../shared/components/navigationDrawer/navigationDrawer";
 import { useAppBarStyles } from "../shared/styles/rootStyles";
+import SnackbarContainer from "../Snackbar/containers/SnackbarContainer";
 
 const MainLayout = ({children}: any) => {
 
@@ -36,6 +37,7 @@ const MainLayout = ({children}: any) => {
                     {children}
                 </div>
             </div>
+            <SnackbarContainer />
         </ThemeProvider>
     )
 }

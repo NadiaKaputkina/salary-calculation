@@ -15,7 +15,8 @@ export const theme = createMuiTheme({
 
 theme.props = {
     MuiButton: {
-        disableElevation: true
+        disableElevation: true,
+        fullWidth: true
     }
 }
 
@@ -32,6 +33,11 @@ theme.overrides = {
         },
         containedSecondary: {
             fontWeight: 700,
+        }
+    },
+    MuiLink: {
+        button: {
+            color: 'black'
         }
     }
 }

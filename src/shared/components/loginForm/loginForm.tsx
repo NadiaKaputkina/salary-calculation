@@ -7,7 +7,7 @@ import {
     InputAdornment,
     Input,
     InputLabel,
-    makeStyles
+    makeStyles, Link
 } from "@material-ui/core";
 import {
     Visibility,
@@ -125,25 +125,23 @@ export default function LoginForm(props: any) {
                 className={classes.loginButtonLayout}
             >
                 <Grid container spacing={2}>
-                    <Grid item>
+                    <Grid item xs={12}>
                         <Button
                             variant='contained'
-                            size="medium"
                             color="primary"
                             onClick={handleLoginButton}
                         >
                             Sign in
                         </Button>
                     </Grid>
-                    <Grid item>
-                        <Button
-                            variant='contained'
-                            size="medium"
-                            color="secondary"
+                    <Grid item xs={12}>
+                        <Link
+                            component="button"
+                            variant="body2"
                             onClick={moveToRegistrationPage}
                         >
-                            Sign Up
-                        </Button>
+                            Sign up for an account
+                        </Link>
                     </Grid>
                 </Grid>
             </div>

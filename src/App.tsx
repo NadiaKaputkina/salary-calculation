@@ -14,8 +14,6 @@ import Reports from "./pages/reports/reports";
 import LoginPage from "./Security/login/LoginPage";
 import RegistrationPage from "./Security/registration/RegistrationPage";
 
-
-
 export default function App() {
 
     return (
@@ -27,7 +25,7 @@ export default function App() {
             <Route path="/reportCards" component={ReportCards}/>
             <Route path="/salaryTables" component={SalaryTables}/>
             <Route path="/reports" component={Reports}/>
-            <Route path="/" render={() => <Redirect to="/home"/>} exact={true}/>
+            <Route path="/" render={() => <Redirect to="/login"/>} exact={true}/>
         </Router>
     )
 }

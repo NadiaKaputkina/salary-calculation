@@ -51,19 +51,12 @@ function ApplicationBar(props: any) {
                         </Typography>
                     </NavLink>
                 </div>
-                {
-                    auth ?
-                        <Button
-                            onClick={handleLogoutButton}
-                        >
-                            Logout
-                        </Button> :
-                        <Button
-                            onClick={handleLoginButton}
-                        >
-                            Login
-                        </Button>
-                }
+                <Button
+                    className={classes.flexEnd}
+                    onClick={handleLogoutButton}
+                >
+                    Logout
+                </Button>
             </Toolbar>
         </AppBar>
     )

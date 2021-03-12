@@ -90,4 +90,9 @@ export const useAppBarStyles = makeStyles(theme => ({
     height: {
         height: '900px'
     },
+    flexEnd: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-end'
+    }
 }))

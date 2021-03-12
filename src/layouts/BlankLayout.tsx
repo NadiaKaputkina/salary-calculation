@@ -6,6 +6,7 @@ import {
 import { theme } from "../theme";
 import { useAppBarStyles } from "../shared/styles/rootStyles";
 import clsx from "clsx";
+import SnackbarContainer from "../Snackbar/containers/SnackbarContainer";
 
 const BlankLayout = ({children}: any) => {
     const classes = useAppBarStyles();
@@ -15,6 +16,7 @@ const BlankLayout = ({children}: any) => {
                 className={clsx(classes.layout, classes.height)}>
                 {children}
             </div>
+            <SnackbarContainer />
         </ThemeProvider>
     )
 }
