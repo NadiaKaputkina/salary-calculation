@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { SnackInterface } from "./snackReducer";
+import { SnackInterface } from './snackReducer';
 
 export const selectSnack = (state: any): SnackInterface => state.snack;
 

@@ -15,7 +15,7 @@ export const theme = createMuiTheme({
 
 theme.props = {
     MuiButton: {
-        disableElevation: true,
+        disableElevation: false,
         fullWidth: true
     }
 }
