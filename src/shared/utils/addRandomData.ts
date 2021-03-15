@@ -50,11 +50,10 @@ export const addRandomEmployeeAction = () => {
 
     ]
     return async (dispatch: any): Promise<any> => {
-        const promises = data.map((element: any) => {
-                return dispatch(addEmplAction(element))
+        for (const element of data) {
+                await dispatch(addEmplAction(element))
             }
-        )
-        await Promise.all(promises)
+
         dispatch(loadWorkersAction())
     }
 }
