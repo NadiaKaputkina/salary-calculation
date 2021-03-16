@@ -4,9 +4,9 @@ import {
 } from "redux";
 
 import { ThunkAction } from "redux-thunk";
-import * as api from "../../api/workers";
+import * as api from "../api/workers";
 import { WORKERS_LOAD } from "./employeesReducer";
-import { snackShowAction } from "../../Snackbar/snackAction";
+import { snackShowAction } from "../Snackbar/snackAction";
 
 export const loadWorkersAction: ActionCreator<ThunkAction<Promise<Action>, any, void, any>> = () => {
     return async (dispatch: Dispatch<Action>): Promise<any> => {
@@ -50,10 +50,27 @@ export const deleteEmployeeAction: ActionCreator<ThunkAction<Promise<Action>, an
             const response = await api.deleteEmployee(data)
             const res = await response.json()
             console.log('response', response)
-            if(response.status === 200){
+            if (response.status === 200) {
                 dispatch(loadWorkersAction())
             }
-        }catch (e) {
+        } catch (e) {
+            console.log('e', e)
+        }
+    }
+}
+
+export const search: any = (payload: any) => {
+    return async (dispatch: any): Promise<any> => {
+        const data = {
+            query: payload
+        }
+        try {
+            const response = await api.searchWorkers(data.query)
+            const res = await response.json()
+            if (response.status === 200) {
+                return res
+            }
+        } catch (e) {
             console.log('e', e)
         }
     }

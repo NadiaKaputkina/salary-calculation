@@ -1,7 +1,7 @@
 import { Action, ActionCreator } from "redux";
 import { ThunkAction } from "redux-thunk";
 import * as api from "../../api/workers";
-import { loadWorkersAction } from "../../pages/employees/employeesAction";
+import { loadWorkersAction } from "../../EmployeeList/employeesAction";
 
 export const addRandomEmployeeAction = () => {
     const data = [

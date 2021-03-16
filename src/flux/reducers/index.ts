@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 import profile from './profile';
 import { snackReducer } from '../../Snackbar/snackReducer';
-import { workersReducer } from '../../pages/employees/employeesReducer';
+import { workersReducer } from '../../EmployeeList/employeesReducer';
 
 export default combineReducers({
     profile,

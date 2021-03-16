@@ -7,7 +7,7 @@ import {
 import './App.css';
 import './index.css'
 import Home from "./pages/home/home";
-import Employees from "./pages/employees/employees";
+import EmployeesPage from "./pages/EmployeesPage";
 import ReportCards from "./pages/reportCards/reportCards";
 import SalaryTables from "./pages/salaryTables/salaryTables";
 import Reports from "./pages/reports/reports";
@@ -21,7 +21,7 @@ export default function App() {
             <Route path="/login" component={LoginPage}/>
             <Route path="/registration" component={RegistrationPage}/>
             <Route path="/home" component={Home}/>
-            <Route path="/employees" component={Employees}/>
+            <Route path="/employees" component={EmployeesPage}/>
             <Route path="/reportCards" component={ReportCards}/>
             <Route path="/salaryTables" component={SalaryTables}/>
             <Route path="/reports" component={Reports}/>
