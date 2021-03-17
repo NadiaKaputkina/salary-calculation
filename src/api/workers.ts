@@ -2,6 +2,10 @@ export const loadWorkers = () => {
     return fetch('http://localhost:3000/workers')
 }
 
+export const loadWorkersWithQuery = (limit: any, page: any) => {
+    return fetch(`http://localhost:3000/workers?_page=${page+1}&_limit=${limit}`)
+}
+
 export const searchWorkers = (payload: any) => {
     return fetch(`http://localhost:3000/workers?q=${payload}`)
 }

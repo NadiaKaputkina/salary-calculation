@@ -81,6 +81,7 @@ export const useAppBarStyles = makeStyles(theme => ({
         flexGrow: 1,
     },
     layout: {
+        minHeight:'1050px',
         display: 'flex',
         flexDirection: 'row',
         width: '100%',

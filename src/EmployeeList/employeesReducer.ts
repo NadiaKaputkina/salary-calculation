@@ -1,4 +1,5 @@
 export const WORKERS_LOAD = 'WORKERS_LOAD'
+export const WORKERS_QUERY_LOAD = 'WORKERS_QUERY_LOAD'
 
 export interface EmployeeInterface {
     name: string
@@ -13,7 +14,8 @@ export interface WorkersInterface {
 }
 
 const initialState = {
-    workers: []
+    workers: [],
+    workerQuery: []
 }
 
 export function workersReducer(state: WorkersInterface = initialState, {type, payload}: any) {
@@ -22,6 +24,11 @@ export function workersReducer(state: WorkersInterface = initialState, {type, pa
             return {
                 ...state,
                 workers: payload
+            }
+        case WORKERS_QUERY_LOAD:
+            return {
+                ...state,
+                workerQuery: payload
             }
         default:
             return state

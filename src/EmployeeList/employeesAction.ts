@@ -5,7 +5,7 @@ import {
 
 import { ThunkAction } from "redux-thunk";
 import * as api from "../api/workers";
-import { WORKERS_LOAD } from "./employeesReducer";
+import { WORKERS_LOAD, WORKERS_QUERY_LOAD } from "./employeesReducer";
 import { snackShowAction } from "../Snackbar/snackAction";
 
 export const loadWorkersAction: ActionCreator<ThunkAction<Promise<Action>, any, void, any>> = () => {
@@ -16,6 +16,30 @@ export const loadWorkersAction: ActionCreator<ThunkAction<Promise<Action>, any, 
             if (res.length > 0) {
                 dispatch({
                     type: WORKERS_LOAD,
+                    payload: res
+                })
+            }
+        } catch (e) {
+            console.log('e', e)
+        }
+    }
+}
+
+export const loadWorkersActionWithQuery: ActionCreator<ThunkAction<Promise<Action>, any, void, any>> = (payload: any) => {
+
+    const {
+        _limit,
+        _page
+    } = payload
+
+    return async (dispatch: Dispatch<Action>): Promise<any> => {
+        try {
+            const response = await api.loadWorkersWithQuery(_limit, _page)
+            const res = await response.json()
+            console.log('res', res)
+            if (res.length > 0) {
+                dispatch({
+                    type: WORKERS_QUERY_LOAD,
                     payload: res
                 })
             }
