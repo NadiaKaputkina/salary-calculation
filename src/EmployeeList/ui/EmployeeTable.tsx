@@ -13,6 +13,8 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
 import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
+import { useSelector } from "react-redux";
+import { employeesTotalCountSelector } from "../employeesSelector";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -45,14 +47,26 @@ const useStyles = makeStyles((theme) => ({
 const EmployeeTable = (props: any) => {
 
     const {
-        rowsPerPage,
         handleDeleteButton,
-        workers,
+        employees,
         handleChangeRowsPerPage,
-        page,
-        handleChangePage
+        // handleChangePage,
+        queryParams,
+        setQueryParams,
+        handleChangeQueryProp,
+        loadEmployee,
     } = props
     const classes = useStyles()
+    const employeesCount: number = useSelector(employeesTotalCountSelector)
+
+    const handleChangePage = (event: any, newPage: any) => {
+        console.log('newPage', newPage)
+        const newQueryParams = {...queryParams, 'page': newPage}
+        setQueryParams(newQueryParams);
+        // loadEmployee(newQueryParams)
+    };
+
+    console.log('employeesCount', employeesCount)
 
     return (
         <div className={classes.layout}>
@@ -68,7 +82,7 @@ const EmployeeTable = (props: any) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {workers?.workerQuery?.map((row: any) => (
+                        {employees?.map((row: any) => (
                             <StyledTableRow key={row.id}>
                                 <StyledTableCell component="th" scope="row">
                                     {row.name}
@@ -89,20 +103,24 @@ const EmployeeTable = (props: any) => {
                     </TableBody>
                     <TableFooter>
                         <TableRow>
-                            <TablePagination
-                                rowsPerPageOptions={[2, 5, 10, 25, { label: 'All', value: -1 }]}
-                                colSpan={3}
-                                count={workers.workers.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                SelectProps={{
-                                    inputProps: { 'aria-label': 'rows per page' },
-                                    native: true,
-                                }}
-                                onChangePage={handleChangePage}
-                                onChangeRowsPerPage={handleChangeRowsPerPage}
-                                ActionsComponent={TablePaginationActions}
-                            />
+                            {
+                                employeesCount &&
+                                <TablePagination
+                                  rowsPerPageOptions={[2, 5, 10, 25, { label: 'All', value: -1 }]}
+                                  colSpan={3}
+                                  count={employeesCount}
+                                  rowsPerPage={queryParams.limit}
+                                  page={queryParams.page}
+                                  SelectProps={{
+                                      inputProps: { 'aria-label': 'rows per page' },
+                                      native: true,
+                                  }}
+                                  onChangePage={handleChangePage}
+                                  onChangeRowsPerPage={handleChangeQueryProp('limit')}
+                                  ActionsComponent={TablePaginationActions}
+                                />
+                            }
+
                         </TableRow>
                     </TableFooter>
                 </Table>

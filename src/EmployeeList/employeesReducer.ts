@@ -1,5 +1,5 @@
-export const WORKERS_LOAD = 'WORKERS_LOAD'
-export const WORKERS_QUERY_LOAD = 'WORKERS_QUERY_LOAD'
+export const EMPLOYEES_LOAD_SUCCESS = 'EMPLOYEES_LOAD_SUCCESS'
+export const EMPLOYEES_LOAD_COUNT = 'EMPLOYEES_LOAD_COUNT'
 
 export interface EmployeeInterface {
     name: string
@@ -9,27 +9,30 @@ export interface EmployeeInterface {
     id: number
 }
 
-export interface WorkersInterface {
-    workers: EmployeeInterface[]
+export type EmployeeStateType = {
+    items: EmployeeInterface[],
+    totalCount: number
 }
 
-const initialState = {
-    workers: [],
-    workerQuery: []
+const initialState: EmployeeStateType = {
+    items: [],
+    totalCount: 0
 }
 
-export function workersReducer(state: WorkersInterface = initialState, {type, payload}: any) {
+export function employeesReducer(state: EmployeeStateType = initialState, {type, payload}: any) {
     switch (type) {
-        case WORKERS_LOAD:
+        case EMPLOYEES_LOAD_SUCCESS:
+            return {
+                items: payload,
+                totalCount: state.totalCount
+            }
+
+        case EMPLOYEES_LOAD_COUNT:
             return {
                 ...state,
-                workers: payload
+                totalCount: payload
             }
-        case WORKERS_QUERY_LOAD:
-            return {
-                ...state,
-                workerQuery: payload
-            }
+
         default:
             return state
     }

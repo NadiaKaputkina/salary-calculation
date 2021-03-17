@@ -1,7 +1,7 @@
 import { Action, ActionCreator } from "redux";
 import { ThunkAction } from "redux-thunk";
 import * as api from "../../api/workers";
-import { loadWorkersAction } from "../../EmployeeList/employeesAction";
+import { loadEmployeeTotalCountAction } from "../../EmployeeList/employeesAction";
 
 export const addRandomEmployeeAction = () => {
     const data = [
@@ -54,7 +54,7 @@ export const addRandomEmployeeAction = () => {
                 await dispatch(addEmplAction(element))
             }
 
-        dispatch(loadWorkersAction())
+        dispatch(loadEmployeeTotalCountAction())
     }
 }
 

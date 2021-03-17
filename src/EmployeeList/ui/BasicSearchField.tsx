@@ -48,10 +48,15 @@ const useStyles = makeStyles((theme) => ({
 const BasicSearchField = (props: any) => {
 
     const {
-        setSearchText
+        queryParams,
+
     } = props
 
     const classes = useStyles()
+
+    const handleOnBlur = (prop: string) => (event: any) => {
+        // setSearchText({...searchText, [prop]: event.target.value});
+    };
 
     return (
         <div className={classes.search}>
@@ -65,9 +70,9 @@ const BasicSearchField = (props: any) => {
                     input: classes.inputInput,
                 }}
                 inputProps={{'aria-label': 'search'}}
-                onBlur={(event) => {
-                    setSearchText(event.target.value)
-                }
+                onBlur={
+                    handleOnBlur('q')
+                    // setSearchText(event.target.value)
                 }
             />
         </div>

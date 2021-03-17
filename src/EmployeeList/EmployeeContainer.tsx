@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import {
     addEmployeeAction,
     deleteEmployeeAction,
-    loadWorkersAction, loadWorkersActionWithQuery,
+    loadEmployeeTotalCountAction, loadEmployeesWithQueryAction,
     search
 } from "./employeesAction";
-import { selectWorkers, selectWorkersQuery } from "./employeesSelector";
+import { employeesSelector } from "./employeesSelector";
 import { addRandomEmployeeAction } from "../shared/utils/addRandomData";
 import { useLocation } from "react-router";
 import { useHistory } from "react-router-dom";
-import { WORKERS_LOAD } from "./employeesReducer";
 import EmployeeModal from "./modal/EmployeeModal";
 import EmployeeTable from "./ui/EmployeeTable";
 import TableActionButtons from "./ui/TableActionButtons";
@@ -34,50 +33,79 @@ const EmployeeContainer = () => {
     let query = useQuery();
 
     const dispatch = useDispatch()
-    const workers = useSelector(selectWorkers)
-    const workersQuery = useSelector(selectWorkersQuery)
-    console.log('workers', workers)
+    const employees = useSelector(employeesSelector)
     const [isWorkerModal, setIsAddWorkerModal] = useState(false)
-    const [searchText, setSearchText] = useState(query.get("q") === null ? '' : `${query.get("q")}`)
+    // const [searchText, setSearchText] = useState(query.get("q") === null ? '' : `${query.get("q")}`)
+    const [queryParams, setQueryParams] = useState({
+        q: query.get("q") === null ? '' : `${query.get("q")}`,
+        page: query.get("page") === null ? 0 : `${query.get("page")}`,
+        limit: query.get("limit") === null ? 5 : `${query.get("limit")}`,
+    })
     const [employee, setEmployee] = useState({
         name: '',
         duty: '',
         salary: 0,
         kids: 0
     })
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const [page, setPage] = React.useState(0);
+    // const [rowsPerPage, setRowsPerPage] = React.useState(query.get("_page") === null ? 5 : `${query.get("_page")}`);
+    // const [page, setPage] = React.useState(query.get("_limit") === null ? 0 : `${query.get("_limit")}`);
+    const [isLoading, setIsLoading] = useState(true);
     const history = useHistory()
     const classes = useStyles();
 
-    useEffect(() => {
-        dispatch(loadWorkersAction())
-        dispatch(loadWorkersActionWithQuery({
-            _page: page,
-            _limit: rowsPerPage
-        }))
-    }, [isWorkerModal])
-    useEffect(() => {
-        dispatch(loadWorkersActionWithQuery({
-            _page: page,
-            _limit: rowsPerPage
-        }))
-    },[page, rowsPerPage])
+//TODO move this effect to modal
+
+//     useEffect(() => {
+//         dispatch(loadWorkersAction())
+//         dispatch(loadWorkersActionWithQuery({
+//             q: searchText.q,
+//             _page: page,
+//             _limit: rowsPerPage
+//         }))
+//     }, [isWorkerModal])
+
+    // useEffect(() => {
+    //     dispatch(loadWorkersActionWithQuery({
+    //         q: searchText.q,
+    //         _page: page,
+    //         _limit: rowsPerPage
+    //     }))
+    // }, [page, rowsPerPage, searchText])
+
+    // useEffect(() => {
+    //     if (searchText.q.length > 0) {
+    //         history.push(`employees?q=${searchText.q}&_page=${page}&_limit=${rowsPerPage}`)
+    //     } else if (searchText.q.length === 0) {
+    //         history.push('employees')
+    //     }
+    //
+    //     dispatch(loadWorkersActionWithQuery({
+    //         q: searchText.q,
+    //         _page: page,
+    //         _limit: rowsPerPage
+    //     }))
+    //
+    //     dispatch(search(searchText.q)).then((res: any) => {
+    //         dispatch({
+    //             type: WORKERS_LOAD,
+    //             payload: res
+    //         })
+    //     })
+    // }, [searchText, rowsPerPage, page])
+
+    const loadEmployee = useCallback(
+        () => {
+            console.log('queryParams', queryParams)
+            dispatch(loadEmployeesWithQueryAction(queryParams))
+            dispatch(loadEmployeeTotalCountAction())
+        },
+        [queryParams],
+    );
 
     useEffect(() => {
-        if (searchText.length > 0) {
-            history.push(`employees?q=${searchText}`)
-        } else if (searchText.length === 0) {
-            history.push('employees')
-        }
+        loadEmployee()
+    }, [queryParams]);
 
-        dispatch(search(searchText)).then((res: any) => {
-            dispatch({
-                type: WORKERS_LOAD,
-                payload: res
-            })
-        })
-    }, [searchText])
 
     const handleAddEmployeeButton = () => {
         setIsAddWorkerModal(true)
@@ -93,6 +121,11 @@ const EmployeeContainer = () => {
         setEmployee({...employee, [prop]: event.target.value});
     };
 
+    const handleChangeQueryProp = (prop: string) => (event: any) => {
+        setQueryParams({...queryParams, [prop]: event.target.value});
+    };
+
+
     const handleDeleteButton = (id: number) => (event: any) => {
 
         dispatch(deleteEmployeeAction(id))
@@ -104,37 +137,35 @@ const EmployeeContainer = () => {
     }
 
     const handleChangeRowsPerPage = (event: any) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-        dispatch(loadWorkersActionWithQuery({
-            _page: page,
-            _limit: rowsPerPage
-        }))
+        // setRowsPerPage(parseInt(event.target.value, 10));
+        // setPage(0);
+        // loadEmployee()
     };
 
     const handleChangePage = (event: any, newPage: any) => {
-        setPage(newPage);
+        // setPage(newPage);
     };
 
     return (
         <>
             <div
-            className={classes.layout}
+                className={classes.layout}
             >
                 <BasicSearchField
-                    {...{setSearchText}}
+                    queryParams={queryParams}
                 />
                 <EmployeeTable
-                    setSearchText={setSearchText}
                     handleDeleteButton={handleDeleteButton}
-                    rowsPerPage={rowsPerPage}
-                    setRowsPerPage={setRowsPerPage}
                     handleChangeRowsPerPage={handleChangeRowsPerPage}
                     handleChangePage={handleChangePage}
-                    page={page}
-                    workers={workers}
+                    employees={employees}
+                    queryParams={queryParams}
+                    setQueryParams={setQueryParams}
+                    handleChangeQueryProp={handleChangeQueryProp}
+                    loadEmployee={loadEmployee}
+
                 />
-                <Paginator />
+                {/*<Paginator />*/}
                 <TableActionButtons
                     handleAddEmployeeButton={handleAddEmployeeButton}
                     handleAddRandomEmployeeButton={handleAddRandomEmployeeButton}

@@ -1,4 +1,4 @@
-import { WorkersInterface } from './employeesReducer'
+import { EmployeeStateType } from "./employeesReducer";
 
-export const selectWorkers = (state: any): WorkersInterface => state.workers;
-export const selectWorkersQuery = (state: any): WorkersInterface => state.workerQuery;
+export const employeesSelector = (state: any): EmployeeStateType => state.employees.items;
+export const employeesTotalCountSelector = (state: any): number => state.employees.totalCount;
