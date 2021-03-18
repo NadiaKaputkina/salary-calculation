@@ -4,7 +4,7 @@ import {
     addEmployeeAction,
     deleteEmployeeAction,
     loadEmployeeTotalCountAction,
-    loadEmployeesWithQueryAction,
+    loadEmployeesWithQueryAction, search,
 } from "./employeesAction";
 import { employeesSelector } from "./employeesSelector";
 import { addRandomEmployeeAction } from "../shared/utils/addRandomData";
@@ -30,14 +30,13 @@ const useStyles = makeStyles((theme) => ({
 const EmployeeContainer = () => {
 
     let query = useQuery();
-
     const dispatch = useDispatch()
     const employees = useSelector(employeesSelector)
     const [isWorkerModal, setIsAddWorkerModal] = useState(false)
     const [queryParams, setQueryParams] = useState({
         q: query.get("q") === null ? '' : `${query.get("q")}`,
-        page: query.get("page") === null ? 0 : `${query.get("page")}`,
-        limit: query.get("limit") === null ? 5 : `${query.get("limit")}`,
+        page: query.get("page") === null ? 0 : query.get("page"),
+        limit: query.get("limit") === null ? 5 : query.get("limit"),
     })
     const [employee, setEmployee] = useState({
         name: '',
@@ -46,7 +45,7 @@ const EmployeeContainer = () => {
         kids: 0
     })
     const [isLoading, setIsLoading] = useState(true);
-    const [employeeCount, setEmployeeCount] = useState(10)
+    const [employeeCount, setEmployeeCount] = useState()
     const [isSearched, setIsSearched] = useState(false)
     const history = useHistory()
     const classes = useStyles();
@@ -54,9 +53,22 @@ const EmployeeContainer = () => {
 
     const loadEmployee = useCallback(
         () => {
-            console.log('queryParams', queryParams)
-            dispatch(loadEmployeesWithQueryAction(queryParams))
-            dispatch(loadEmployeeTotalCountAction())
+            dispatch(loadEmployeeTotalCountAction()).then((res: any) => {
+                setEmployeeCount(res)
+            }).then(() => {
+                dispatch(loadEmployeesWithQueryAction(queryParams))
+                dispatch(search(queryParams.q)).then((res: any) => {
+                    setEmployeeCount(res)
+                    if (queryParams.page !== null && (queryParams.page > (res / (queryParams.limit === null? 5: typeof queryParams.limit === 'string'? parseInt(queryParams.limit): queryParams.limit)))) {
+                        setQueryParams({...queryParams, 'page': 0})
+                    }
+                })
+
+
+            }).then(() => {
+                history.push(`/employees?q=${queryParams.q}&page=${queryParams.page}&limit=${queryParams.limit}`)
+            })
+
         },
         [queryParams],
     );
@@ -65,7 +77,7 @@ const EmployeeContainer = () => {
         loadEmployee()
     }, [queryParams]);
 
-     const handleAddEmployeeButton = () => {
+    const handleAddEmployeeButton = () => {
         setIsAddWorkerModal(true)
     }
     const handleCloseAddWorkerModal = () => {
@@ -80,7 +92,8 @@ const EmployeeContainer = () => {
     };
 
     const handleChangeQueryProp = (prop: string) => (event: any) => {
-        setQueryParams({...queryParams, [prop]: event.target.value});
+
+        setQueryParams({...queryParams, [prop]: parseInt(event.target.value)});
     };
 
 
@@ -100,6 +113,7 @@ const EmployeeContainer = () => {
                 className={classes.layout}
             >
                 <BasicSearchField
+                    history={history}
                     isSearched={isSearched}
                     setIsSearched={setIsSearched}
                     queryParams={queryParams}
@@ -108,6 +122,7 @@ const EmployeeContainer = () => {
                     setEmployeeCount={setEmployeeCount}
                 />
                 <EmployeeTable
+                    history={history}
                     isSearched={isSearched}
                     handleDeleteButton={handleDeleteButton}
                     employees={employees}

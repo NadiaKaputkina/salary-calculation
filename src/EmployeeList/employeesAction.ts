@@ -8,8 +8,8 @@ import * as api from "../api/workers";
 import { EMPLOYEES_LOAD_COUNT, EMPLOYEES_LOAD_SUCCESS } from "./employeesReducer";
 import { snackShowAction } from "../Snackbar/snackAction";
 
-export const loadEmployeeTotalCountAction: ActionCreator<ThunkAction<Promise<Action>, any, void, any>> = () => {
-    return async (dispatch: Dispatch<Action>): Promise<any> => {
+export const loadEmployeeTotalCountAction: any = () => {
+    return async (dispatch: any): Promise<number | undefined> => {
         try {
             const response = await api.loadWorkers()
             const res = await response.json()
@@ -18,7 +18,9 @@ export const loadEmployeeTotalCountAction: ActionCreator<ThunkAction<Promise<Act
                     type: EMPLOYEES_LOAD_COUNT,
                     payload: res.length
                 })
+                return parseInt(res.length)
             }
+
         } catch (e) {
             console.log('e', e)
         }
@@ -83,7 +85,6 @@ export const search: any = (payload: any) => {
         const data = {
             query: payload
         }
-        console.log('here')
 
         try {
             const response = await api.searchWorkers(data.query)

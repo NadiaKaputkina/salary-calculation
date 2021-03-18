@@ -9,7 +9,9 @@ import {
     Table,
     TableBody,
     TableHead,
-    IconButton, TablePagination, TableFooter,
+    IconButton,
+    TablePagination,
+    TableFooter,
 } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
 import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
@@ -91,20 +93,23 @@ const EmployeeTable = (props: any) => {
                     </TableBody>
                     <TableFooter>
                         <TableRow>
-                            <TablePagination
-                                rowsPerPageOptions={[2, 5, 10, 25, {label: 'All', value: -1}]}
-                                colSpan={3}
-                                count={employeeCount}
-                                rowsPerPage={queryParams.limit}
-                                page={queryParams.page}
-                                SelectProps={{
-                                    inputProps: {'aria-label': 'rows per page'},
-                                    native: true,
-                                }}
-                                onChangePage={handleChangePage}
-                                onChangeRowsPerPage={handleChangeQueryProp('limit')}
-                                ActionsComponent={TablePaginationActions}
-                            />
+                            {
+                                employeeCount &&
+                                <TablePagination
+                                  rowsPerPageOptions={[2, 5, 10, 25, {label: 'All', value: -1}]}
+                                  colSpan={3}
+                                  count={employeeCount}
+                                  rowsPerPage={typeof queryParams.limit === 'string'? parseInt(queryParams.limit): queryParams.limit}
+                                  page={typeof queryParams.page === 'string'? parseInt(queryParams.page): queryParams.page}
+                                  SelectProps={{
+                                      inputProps: {'aria-label': 'rows per page'},
+                                      native: true,
+                                  }}
+                                  onChangePage={handleChangePage}
+                                  onChangeRowsPerPage={handleChangeQueryProp('limit')}
+                                  ActionsComponent={TablePaginationActions}
+                                />
+                            }
                         </TableRow>
                     </TableFooter>
                 </Table>
