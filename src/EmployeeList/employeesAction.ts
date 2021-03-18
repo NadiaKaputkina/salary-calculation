@@ -83,13 +83,12 @@ export const search: any = (payload: any) => {
         const data = {
             query: payload
         }
+        console.log('here')
 
         try {
             const response = await api.searchWorkers(data.query)
             const res = await response.json()
-            if (response.status === 200) {
-                return res
-            }
+            return res.length
         } catch (e) {
             console.log('e', e)
         }

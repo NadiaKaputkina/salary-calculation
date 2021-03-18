@@ -13,8 +13,6 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from '@material-ui/icons/Delete';
 import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
-import { useSelector } from "react-redux";
-import { employeesTotalCountSelector } from "../employeesSelector";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -49,24 +47,16 @@ const EmployeeTable = (props: any) => {
     const {
         handleDeleteButton,
         employees,
-        handleChangeRowsPerPage,
-        // handleChangePage,
         queryParams,
         setQueryParams,
         handleChangeQueryProp,
-        loadEmployee,
+        employeeCount,
     } = props
     const classes = useStyles()
-    const employeesCount: number = useSelector(employeesTotalCountSelector)
-
     const handleChangePage = (event: any, newPage: any) => {
-        console.log('newPage', newPage)
         const newQueryParams = {...queryParams, 'page': newPage}
         setQueryParams(newQueryParams);
-        // loadEmployee(newQueryParams)
     };
-
-    console.log('employeesCount', employeesCount)
 
     return (
         <div className={classes.layout}>
@@ -84,9 +74,7 @@ const EmployeeTable = (props: any) => {
                     <TableBody>
                         {employees?.map((row: any) => (
                             <StyledTableRow key={row.id}>
-                                <StyledTableCell component="th" scope="row">
-                                    {row.name}
-                                </StyledTableCell>
+                                <StyledTableCell component="th" scope="row">{row.name}</StyledTableCell>
                                 <StyledTableCell align="right">{row.duty}</StyledTableCell>
                                 <StyledTableCell align="right">{row.salary}</StyledTableCell>
                                 <StyledTableCell align="right">{row.kids}</StyledTableCell>
@@ -103,24 +91,20 @@ const EmployeeTable = (props: any) => {
                     </TableBody>
                     <TableFooter>
                         <TableRow>
-                            {
-                                employeesCount &&
-                                <TablePagination
-                                  rowsPerPageOptions={[2, 5, 10, 25, { label: 'All', value: -1 }]}
-                                  colSpan={3}
-                                  count={employeesCount}
-                                  rowsPerPage={queryParams.limit}
-                                  page={queryParams.page}
-                                  SelectProps={{
-                                      inputProps: { 'aria-label': 'rows per page' },
-                                      native: true,
-                                  }}
-                                  onChangePage={handleChangePage}
-                                  onChangeRowsPerPage={handleChangeQueryProp('limit')}
-                                  ActionsComponent={TablePaginationActions}
-                                />
-                            }
-
+                            <TablePagination
+                                rowsPerPageOptions={[2, 5, 10, 25, {label: 'All', value: -1}]}
+                                colSpan={3}
+                                count={employeeCount}
+                                rowsPerPage={queryParams.limit}
+                                page={queryParams.page}
+                                SelectProps={{
+                                    inputProps: {'aria-label': 'rows per page'},
+                                    native: true,
+                                }}
+                                onChangePage={handleChangePage}
+                                onChangeRowsPerPage={handleChangeQueryProp('limit')}
+                                ActionsComponent={TablePaginationActions}
+                            />
                         </TableRow>
                     </TableFooter>
                 </Table>

@@ -5,6 +5,8 @@ import {
     InputBase,
     makeStyles
 } from "@material-ui/core";
+import { search } from "../employeesAction";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     search: {
@@ -49,13 +51,21 @@ const BasicSearchField = (props: any) => {
 
     const {
         queryParams,
-
+        setQueryParams,
+        isSearched,
+        setIsSearched,
+        setEmployeeCount
     } = props
 
     const classes = useStyles()
+    const dispatch = useDispatch()
 
     const handleOnBlur = (prop: string) => (event: any) => {
-        // setSearchText({...searchText, [prop]: event.target.value});
+        setQueryParams({...queryParams, [prop]: event.target.value})
+        setIsSearched(!isSearched)
+        dispatch(search(event.target.value)).then((res: number) => {
+            setEmployeeCount(res)
+        })
     };
 
     return (
@@ -72,7 +82,6 @@ const BasicSearchField = (props: any) => {
                 inputProps={{'aria-label': 'search'}}
                 onBlur={
                     handleOnBlur('q')
-                    // setSearchText(event.target.value)
                 }
             />
         </div>
