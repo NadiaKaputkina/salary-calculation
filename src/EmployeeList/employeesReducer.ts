@@ -11,28 +11,26 @@ export interface EmployeeInterface {
 
 export type EmployeeStateType = {
     items: EmployeeInterface[],
-    totalCount: number,
+    totalCount: null | number,
 }
 
 const initialState: EmployeeStateType = {
     items: [],
-    totalCount: 0,
+    totalCount: null,
 }
 
 export function employeesReducer(state: EmployeeStateType = initialState, {type, payload}: any) {
     switch (type) {
         case EMPLOYEES_LOAD_SUCCESS:
             return {
-                ...state,
-                items: payload,
-                totalCount: state.totalCount,
+                ...payload
             }
-
-        case EMPLOYEES_LOAD_COUNT:
-            return {
-                ...state,
-                totalCount: payload,
-            }
+        //
+        // case EMPLOYEES_LOAD_COUNT:
+        //     return {
+        //         ...state,
+        //         totalCount: payload,
+        //     }
         default:
             return state
     }

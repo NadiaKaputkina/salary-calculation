@@ -1,18 +1,19 @@
-export const loadWorkers = () => {
+export const loadEmployees = () => {
     return fetch('http://localhost:3000/workers')
 }
 
-export const loadWorkersWithQuery = (payload: any) => {
+export const loadWorkersWithQuery = (queryParams: any) => {
     const {
         q,
         limit,
         page
-    } = payload
-    return fetch(`http://localhost:3000/workers?q=${q}&_page=${page+1}&_limit=${limit}`)
+    } = queryParams
+
+    return fetch(`http://localhost:3000/workers?q=${q}&_page=${page}&_limit=${limit}`)
 }
 
-export const searchWorkers = (payload: any) => {
-    return fetch(`http://localhost:3000/workers?q=${payload}`)
+export const loadTotalCountWithQuery = (queryParams: any) => {
+    return fetch(`http://localhost:3000/workers?q=${queryParams.q}`)
 }
 
 export const addEmployee = (data: any) => {

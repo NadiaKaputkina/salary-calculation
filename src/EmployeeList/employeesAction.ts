@@ -11,7 +11,7 @@ import { snackShowAction } from "../Snackbar/snackAction";
 export const loadEmployeeTotalCountAction: any = () => {
     return async (dispatch: any): Promise<number | undefined> => {
         try {
-            const response = await api.loadWorkers()
+            const response = await api.loadEmployees()
             const res = await response.json()
             if (res.length > 0) {
                 dispatch({
@@ -32,12 +32,15 @@ export const loadEmployeesWithQueryAction: ActionCreator<ThunkAction<Promise<Act
 
     return async (dispatch: Dispatch<Action>): Promise<any> => {
         try {
-            const response = await api.loadWorkersWithQuery(payload)
-            const res = await response.json()
-            if (res.length > 0) {
+            const response1 = await api.loadWorkersWithQuery(payload)
+            const res1 = await response1.json()
+
+            const response2 =await api.loadTotalCountWithQuery(payload)
+            const res2 = await response2.json()
+            if (res1.length > 0) {
                 dispatch({
                     type: EMPLOYEES_LOAD_SUCCESS,
-                    payload: res
+                    payload: {items: res1, totalCount: res2.length}
                 })
             }
         } catch (e) {
@@ -87,7 +90,7 @@ export const search: any = (payload: any) => {
         }
 
         try {
-            const response = await api.searchWorkers(data.query)
+            const response = await api.loadTotalCountWithQuery(data.query)
             const res = await response.json()
             return res.length
         } catch (e) {
