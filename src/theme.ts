@@ -17,6 +17,9 @@ theme.props = {
     MuiButton: {
         disableElevation: false,
         fullWidth: true
+    },
+    MuiTableSortLabel: {
+        active: true
     }
 }
 
@@ -38,6 +41,11 @@ theme.overrides = {
     MuiLink: {
         button: {
             color: 'black'
+        }
+    },
+    MuiTableSortLabel: {
+        root: {
+            color: 'white'
         }
     }
 }

@@ -15,24 +15,20 @@ import EmployeeTable from "./ui/EmployeeTable";
 import TableActionButtons from "./ui/TableActionButtons";
 import BasicSearchField from "./ui/BasicSearchField";
 import { makeStyles } from "@material-ui/core";
-
-export type queryParamsType = {
-    q: string,
-    page: number,
-    limit: number
-}
+import { prepareUrl, queryParamsType } from "../helpers/urlHelpers";
+import { HeaderCellIds, Order } from "./ui/SortTableCell";
 
 function prepareDefaultQueryParams(): queryParamsType {
 
     const query = new URLSearchParams(useLocation().search);
 
-    // const page = query.get("page");
 
     return {
         q: query.get("q") || '',
-        // page: typeof page === null ? 1 : typeof query.get("page") === 'string'? parseInt(query.get("page")): query.get("page"),
         page: typeof query.get("page") === null ? parseInt(query.get("page") as string) : 1,
-        limit: typeof query.get("limit") === null ? parseInt(query.get("page") as string) : 5
+        limit: typeof query.get("limit") === null ? parseInt(query.get("page") as string) : 5,
+        sort: typeof query.get("sort") === null ? query.get("sort") as string : 'asc',
+        order: typeof query.get("order") === null ? query.get("order") as string : 'name',
     }
 }
 
@@ -45,76 +41,53 @@ const useStyles = makeStyles((theme) => ({
 
 const EmployeeContainer = () => {
 
-    let defaultQueryParam: queryParamsType = prepareDefaultQueryParams();
-
-    function cleanQuery(urlQuery: string | null) {
-        if (typeof urlQuery === null) {
-            return 1
-        } else if (typeof urlQuery === 'string') {
-            return parseInt(urlQuery)
-        } else {
-            return urlQuery
-        }
-    }
+    let defaultQueryParams: queryParamsType = prepareDefaultQueryParams();
 
     const dispatch = useDispatch()
     const employees = useSelector(employeesSelector)
     const [isWorkerModal, setIsAddWorkerModal] = useState(false)
-    const [queryParams, setQueryParams] = useState<queryParamsType>(defaultQueryParam)
+    const [queryParams, setQueryParams] = useState<queryParamsType>(defaultQueryParams)
     const [employee, setEmployee] = useState({
         name: '',
         duty: '',
         salary: 0,
         kids: 0
     })
-    const [needLoading, setNeedLoading] = useState(true);
     const [employeeCount, setEmployeeCount] = useState()
     const [isSearched, setIsSearched] = useState(false)
     const history = useHistory()
     const classes = useStyles();
 
 
+    const handleRequestSort = useCallback((event: React.MouseEvent<unknown>, name: HeaderCellIds) => {
+        const isSameCell = queryParams.order === name
+        let currentQueryParams = {...queryParams}
+
+        if (isSameCell) {
+
+            const isAsc = queryParams.sort === 'asc'
+            currentQueryParams.sort = isAsc ? 'desc' : 'asc'
+        }
+        if (!isSameCell) {
+
+            currentQueryParams.order = name
+        }
+
+        setQueryParams(currentQueryParams);
+    }, [queryParams])
+
     const loadEmployee = useCallback(
         () => {
             dispatch(loadEmployeesWithQueryAction(queryParams))
-
-            // dispatch(loadEmployeeTotalCountAction()).then((res: any) => {
-            //     setEmployeeCount(res)
-            // }).then(() => {
-            //     dispatch(loadEmployeesWithQueryAction(queryParams))
-            //     dispatch(search(queryParams.q)).then((res: any) => {
-            //         setEmployeeCount(res)
-            //         if (queryParams.page !== null && (queryParams.page > (res / (queryParams.limit === null ? 5 : typeof queryParams.limit === 'string' ? parseInt(queryParams.limit) : queryParams.limit)))) {
-            //             setQueryParams({...queryParams, 'page': 0})
-            //         }
-            //     })
-            //
-            //
-            // }).then(() => {
-            //     history.push(`/employees?q=${queryParams.q}&page=${queryParams.page + 1}&limit=${queryParams.limit}`)
-            // })
-
         },
         [queryParams],
     );
 
     const replaceUrl = useCallback(() => {
-        let newUrl = `/employees`;
-        const newSearchParams = new URLSearchParams();
 
-        if (JSON.stringify(defaultQueryParam) !== JSON.stringify(queryParams)) {
-            (Object.keys(queryParams) as Array<keyof queryParamsType>)
-                .forEach((key) => {
-                    if (queryParams[key] !== defaultQueryParam[key]) {
-                        newSearchParams.append(key, queryParams[key] as string)
-                    }
-                })
-            newUrl += '?' + newSearchParams.toString()
-            // return history.push(`/employees?q=${queryParams.q}&page=${queryParams.page}&limit=${queryParams.limit}`)
-        }
-
+        let newUrl = prepareUrl('/employees', queryParams, defaultQueryParams)
         history.push(newUrl)
-    }, [queryParams, defaultQueryParam])
+    }, [queryParams, defaultQueryParams])
 
     useEffect(() => {
         loadEmployee()
@@ -177,7 +150,7 @@ const EmployeeContainer = () => {
                     handleChangeQueryProp={handleChangeQueryProp}
                     loadEmployee={loadEmployee}
                     employeeCount={employeeCount}
-                    needLoading={needLoading}
+                    handleRequestSort={handleRequestSort}
 
                 />
                 <TableActionButtons

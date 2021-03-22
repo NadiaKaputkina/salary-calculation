@@ -1,23 +1,21 @@
+import { prepareApiUrl } from "../helpers/urlHelpers";
+const baseUrl = 'http://localhost:3000/workers'
+
 export const loadEmployees = () => {
     return fetch('http://localhost:3000/workers')
 }
 
 export const loadWorkersWithQuery = (queryParams: any) => {
-    const {
-        q,
-        limit,
-        page
-    } = queryParams
 
-    return fetch(`http://localhost:3000/workers?q=${q}&_page=${page}&_limit=${limit}`)
+    return fetch(prepareApiUrl(baseUrl, queryParams))
 }
 
 export const loadTotalCountWithQuery = (queryParams: any) => {
-    return fetch(`http://localhost:3000/workers?q=${queryParams.q}`)
+    return fetch(`${baseUrl}?q=${queryParams.q}`)
 }
 
 export const addEmployee = (data: any) => {
-    return fetch('http://localhost:3000/workers', {
+    return fetch(`${baseUrl}`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {

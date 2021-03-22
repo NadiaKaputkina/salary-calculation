@@ -17,6 +17,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
 import { useSelector } from "react-redux";
 import { employeesTotalCountSelector } from "../employeesSelector";
+import SortTableCell from "./SortTableCell";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -54,7 +55,7 @@ const EmployeeTable = (props: any) => {
         queryParams,
         setQueryParams,
         handleChangeQueryProp,
-        replaceUrl
+        handleRequestSort
     } = props
 
     const employeeTotalCount = useSelector(employeesTotalCountSelector)
@@ -62,7 +63,6 @@ const EmployeeTable = (props: any) => {
     const handleChangePage = (event: any, newPage: any) => {
         const newQueryParams = {...queryParams, 'page': newPage + 1}
         setQueryParams(newQueryParams);
-        // replaceUrl()
     };
 
     if (employeeTotalCount === null) {
@@ -75,12 +75,48 @@ const EmployeeTable = (props: any) => {
                 <Table className={classes.table} aria-label="customized table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell>Сотруники</StyledTableCell>
-                            <StyledTableCell align="right">ID&nbsp;</StyledTableCell>
-                            <StyledTableCell align="right">Должность&nbsp;</StyledTableCell>
-                            <StyledTableCell align="right">Оклад&nbsp;</StyledTableCell>
-                            <StyledTableCell align="right">Несовершеннолетние дети&nbsp;</StyledTableCell>
-                            <StyledTableCell align="right">действия&nbsp;</StyledTableCell>
+                            <SortTableCell
+                                label='ID'
+                                name='id'
+                                sort={queryParams.sort}
+                                orderBy={queryParams.order}
+                                handleRequestSort={handleRequestSort}
+                            />
+                            <SortTableCell
+                                label='Сотруники'
+                                name='name'
+                                sort={queryParams.sort}
+                                orderBy={queryParams.order}
+                                handleRequestSort={handleRequestSort}
+                            />
+                            <SortTableCell
+                                label='Должность'
+                                name='duty'
+                                sort={queryParams.sort}
+                                orderBy={queryParams.order}
+                                handleRequestSort={handleRequestSort}
+                            />
+                            <SortTableCell
+                                label='Оклад'
+                                name='salary'
+                                sort={queryParams.sort}
+                                orderBy={queryParams.order}
+                                handleRequestSort={handleRequestSort}
+                            />
+                            <SortTableCell
+                                label='Несовершеннолетние дети'
+                                name='kids'
+                                sort={queryParams.sort}
+                                orderBy={queryParams.order}
+                                handleRequestSort={handleRequestSort}
+                            />
+                            <SortTableCell
+                                label='действия'
+                                name={6}
+                                sort={queryParams.sort}
+                                orderBy={queryParams.order}
+                                handleRequestSort={handleRequestSort}
+                            />
                         </TableRow>
                     </TableHead>
                     <TableBody>
