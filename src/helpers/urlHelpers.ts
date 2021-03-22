@@ -40,7 +40,7 @@ export const prepareApiUrl = (baseUrl: string, queryParams: queryParamsType): st
             }
         })
     newUrl += '?' + newSearchParams.toString()
-    // console.log('newUrl', newUrl);
+    console.log('newUrl', newUrl);
 
     return newUrl
 }

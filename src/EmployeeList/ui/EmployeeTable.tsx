@@ -78,43 +78,37 @@ const EmployeeTable = (props: any) => {
                             <SortTableCell
                                 label='ID'
                                 name='id'
-                                sort={queryParams.sort}
-                                orderBy={queryParams.order}
+                                queryParams={queryParams}
                                 handleRequestSort={handleRequestSort}
                             />
                             <SortTableCell
                                 label='Сотруники'
                                 name='name'
-                                sort={queryParams.sort}
-                                orderBy={queryParams.order}
+                                queryParams={queryParams}
                                 handleRequestSort={handleRequestSort}
                             />
                             <SortTableCell
                                 label='Должность'
                                 name='duty'
-                                sort={queryParams.sort}
-                                orderBy={queryParams.order}
+                                queryParams={queryParams}
                                 handleRequestSort={handleRequestSort}
                             />
                             <SortTableCell
                                 label='Оклад'
                                 name='salary'
-                                sort={queryParams.sort}
-                                orderBy={queryParams.order}
+                                queryParams={queryParams}
                                 handleRequestSort={handleRequestSort}
                             />
                             <SortTableCell
                                 label='Несовершеннолетние дети'
                                 name='kids'
-                                sort={queryParams.sort}
-                                orderBy={queryParams.order}
+                                queryParams={queryParams}
                                 handleRequestSort={handleRequestSort}
                             />
                             <SortTableCell
                                 label='действия'
                                 name={6}
-                                sort={queryParams.sort}
-                                orderBy={queryParams.order}
+                                queryParams={queryParams}
                                 handleRequestSort={handleRequestSort}
                             />
                         </TableRow>

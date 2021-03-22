@@ -9,9 +9,9 @@ import { TableCell, TableSortLabel, withStyles } from "@material-ui/core";
 //     id: number
 // }
 
-export type HeaderCellIds = 'name' | 'duty' | 'salary' | 'kids' | 'id'
+export type HeaderCellIdsType = 'name' | 'duty' | 'salary' | 'kids' | 'id'
 
-export type Order = 'asc' | 'desc';
+export type OrderType = 'asc' | 'desc' | null;
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -25,19 +25,29 @@ const StyledTableCell = withStyles((theme) => ({
 
 const SortTableCell = (props: any) => {
 
-    const {sort, orderBy, handleRequestSort, name, label} = props;
+    const {
+        queryParams: {sort, order},
+        handleRequestSort,
+        name,
+        label
+    } = props;
 
-    const createSortHandler = (name: HeaderCellIds) => (event: React.MouseEvent<unknown>) => {
-        handleRequestSort(event, name);
-    }
+    // const createSortHandler = (name: HeaderCellIdsType, order: OrderType) => (event: React.MouseEvent<unknown>) => {
+    //     handleRequestSort(event, name, order);
+    // }
 
     return (
-        <StyledTableCell align="right">
-            <TableSortLabel
-                active={orderBy === name}
-                direction={orderBy === name ? sort : 'asc'}
-                onClick={createSortHandler(name)}
-            />
+        <StyledTableCell
+            align="right"
+            onClick={handleRequestSort(name, order)}
+        >
+            {
+                sort !== null &&
+                (<TableSortLabel
+                    active={sort === name}
+                    direction={sort === name ? order : 'asc'}
+                />)
+            }
             {label}
         </StyledTableCell>
     )

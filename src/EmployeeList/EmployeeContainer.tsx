@@ -16,19 +16,31 @@ import TableActionButtons from "./ui/TableActionButtons";
 import BasicSearchField from "./ui/BasicSearchField";
 import { makeStyles } from "@material-ui/core";
 import { prepareUrl, queryParamsType } from "../helpers/urlHelpers";
-import { HeaderCellIds, Order } from "./ui/SortTableCell";
+import { HeaderCellIdsType, OrderType } from "./ui/SortTableCell";
 
-function prepareDefaultQueryParams(): queryParamsType {
+const defaultQueryParams: queryParamsType = {
+    q: '',
+    page: 1,
+    limit: 5,
+    sort: null,
+    order: null
+}
+
+function prepareStartQueryParams(): queryParamsType {
 
     const query = new URLSearchParams(useLocation().search);
 
+    // return Object.keys(defaultQueryParams).reduce((obj: keyof defaultQueryParams, key) => {
+    //         obj[key] = query.get(key) === null ? defaultQueryParams[key] : parseInt(query.get(key) as string)
+    //     return obj
+    // }, {})
 
     return {
-        q: query.get("q") || '',
-        page: typeof query.get("page") === null ? parseInt(query.get("page") as string) : 1,
-        limit: typeof query.get("limit") === null ? parseInt(query.get("page") as string) : 5,
-        sort: typeof query.get("sort") === null ? query.get("sort") as string : 'asc',
-        order: typeof query.get("order") === null ? query.get("order") as string : 'name',
+        q: query.get("q") || defaultQueryParams.q,
+        page: query.get("page") === null ? defaultQueryParams.page : parseInt(query.get("page") as string),
+        limit: query.get("limit") === null ? defaultQueryParams.limit : parseInt(query.get("page") as string),
+        sort: query.get("sort") === null ? defaultQueryParams.sort : query.get("sort") as string,
+        order: query.get("order") === null ? defaultQueryParams.order : query.get("order") as string,
     }
 }
 
@@ -41,12 +53,12 @@ const useStyles = makeStyles((theme) => ({
 
 const EmployeeContainer = () => {
 
-    let defaultQueryParams: queryParamsType = prepareDefaultQueryParams();
+    let startQueryParams: queryParamsType = prepareStartQueryParams();
 
     const dispatch = useDispatch()
     const employees = useSelector(employeesSelector)
     const [isWorkerModal, setIsAddWorkerModal] = useState(false)
-    const [queryParams, setQueryParams] = useState<queryParamsType>(defaultQueryParams)
+    const [queryParams, setQueryParams] = useState<queryParamsType>(startQueryParams)
     const [employee, setEmployee] = useState({
         name: '',
         duty: '',
@@ -58,22 +70,27 @@ const EmployeeContainer = () => {
     const history = useHistory()
     const classes = useStyles();
 
+    const handleRequestSort = useCallback((name: HeaderCellIdsType, order: OrderType) => {
+        return (e: React.MouseEvent<unknown>): any => {
+            let currentQueryParams = {...queryParams}
 
-    const handleRequestSort = useCallback((event: React.MouseEvent<unknown>, name: HeaderCellIds) => {
-        const isSameCell = queryParams.order === name
-        let currentQueryParams = {...queryParams}
+            switch (order) {
+                case null:
+                    currentQueryParams.order = 'asc'
+                    currentQueryParams.sort = name
+                    break;
+                case 'asc':
+                    currentQueryParams.order = 'desc'
+                    currentQueryParams.sort = name
+                    break;
+                case 'desc':
+                    currentQueryParams.order = null
+                    currentQueryParams.sort = null
+                    break;
+            }
 
-        if (isSameCell) {
-
-            const isAsc = queryParams.sort === 'asc'
-            currentQueryParams.sort = isAsc ? 'desc' : 'asc'
+            setQueryParams(currentQueryParams);
         }
-        if (!isSameCell) {
-
-            currentQueryParams.order = name
-        }
-
-        setQueryParams(currentQueryParams);
     }, [queryParams])
 
     const loadEmployee = useCallback(
@@ -87,7 +104,7 @@ const EmployeeContainer = () => {
 
         let newUrl = prepareUrl('/employees', queryParams, defaultQueryParams)
         history.push(newUrl)
-    }, [queryParams, defaultQueryParams])
+    }, [queryParams])
 
     useEffect(() => {
         loadEmployee()
