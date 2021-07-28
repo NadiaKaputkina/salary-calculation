@@ -110,7 +110,7 @@ const EmployeeContainer = () => {
         loadEmployee()
 
         replaceUrl()
-    }, [queryParams]);
+    }, []);
 
     const handleAddEmployeeButton = () => {
         setIsAddWorkerModal(true)
